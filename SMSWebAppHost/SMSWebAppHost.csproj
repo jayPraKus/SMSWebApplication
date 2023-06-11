@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SMS.WebApp.Services\SMS.WebApp.Services.csproj" />
     <ProjectReference Include="..\SMSWebAppData\SMSWebAppData.csproj" />
   </ItemGroup>
 

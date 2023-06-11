@@ -11,4 +11,10 @@ namespace SMSWebAppData.Helper
         public bool IsSuccess { get; set; }
         public string Message { get; set; }
     }
+    public class DataResult<T>
+    {
+        public bool IsSuccess { get; set; }
+        public string Message { get; set; }
+        public List<T> Data { get; set; }
+    }
 }

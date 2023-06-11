@@ -27,13 +27,14 @@ namespace SMS.WebApp.Core.Repositories
             var response = await _signInManager.PasswordSignInAsync(model.Email,model.Password,false,false);
             if (response.Succeeded)
             {
+
                 result.IsSuccess= true;
-                result.Message = "User login success";
+                result.Message = "User Created successfully";
             }
             else
             {
                 result.IsSuccess= false;
-                result.Message = "No user found";
+                result.Message = "Failed to register user. Try again!";
             }
             return result;
             
@@ -50,7 +51,14 @@ namespace SMS.WebApp.Core.Repositories
             IdentityResult response =await _userManager.CreateAsync(user);
             if (response.Succeeded)
             {
-                await _signInManager.SignInAsync(user,false);
+                //await _signInManager.SignInAsync(user,false);
+                result.IsSuccess = true;
+                result.Message = "User Createion success";
+            }
+            else
+            {
+                result.IsSuccess = false;
+                result.Message = "Failed";
             }
             return result;
         }

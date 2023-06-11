@@ -18,6 +18,8 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                @if (User.Identity.IsAuthenticated)
+                {
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
@@ -26,6 +28,18 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
                     </ul>
+                }
+                else
+                {
+                    <ul>
+                        <li class="navbar-collapse">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Account/SignIn">Sign In</a>
+                        </li>
+                            <li class="navbar-collapse">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Account/SignUp">Register</a>
+                            </li>
+                    </ul>
+                }
                 </div>
             </div>
         </nav>
