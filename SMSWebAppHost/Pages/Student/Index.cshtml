@@ -1,0 +1,23 @@
+﻿@page
+@model SMSWebAppHost.Pages.Student.IndexModel
+@{
+}
+
+<div class="container">
+    <a class="btn btn-success" asp-page="/Student/Create" role="button">Create Student</a>
+    <div class="row">       
+        @if(Model.Students.Count > 0)
+        {
+            @foreach(var item in Model.Students)
+            {
+                <div class="col">
+                    @item.FirstName
+                </div>
+            }
+        }
+        else
+        {
+            <P>No data found.</P>
+        }
+    </div>
+</div>

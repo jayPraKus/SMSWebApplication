@@ -19,10 +19,11 @@ namespace SMSWebAppHost.Pages
         }
         public async Task<IActionResult> OnPost()
         {
+            //var name = User.Identity.Name;
             var result =await _services.LoginAsync(this.Account);
             if (result.IsSuccess)
             {
-                return RedirectToPage("./Index");
+                return RedirectToPage("/Index");
             }
             return Page();
         }

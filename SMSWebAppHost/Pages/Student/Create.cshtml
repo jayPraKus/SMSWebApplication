@@ -1,0 +1,30 @@
+﻿@page
+@model SMSWebAppHost.Pages.Student.CreateModel
+@{
+}
+<form>
+    <div class="row g-3">
+        <div class="col">
+            <input type="text" asp-for="@Model.StudentViewModel.FirstName" class="form-control" placeholder="First name" aria-label="First name">
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" asp-for="@Model.StudentViewModel.LastName" placeholder="Last name" aria-label="Last name">
+        </div>        
+    </div>
+    <div class="row g-3">
+        <div class="col">
+            <input type="date" class="form-control" asp-for="@Model.StudentViewModel.DOB" placeholder="DOB" aria-label="DateOfBirth">
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" asp-for="@Model.StudentViewModel.Gender" placeholder="Gender" aria-label="Gender">
+        </div>
+    </div>
+    <div class="row g-3">
+        <div class="col">
+            <input type="text" class="form-control" asp-for="@Model.StudentViewModel.GradeLevel" placeholder="Grade Level" aria-label="Grade Level">
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" asp-for="@Model.StudentViewModel.PhoneNumber" placeholder="Phone Number" aria-label="Phone Number">
+        </div>
+    </div>
+</form>

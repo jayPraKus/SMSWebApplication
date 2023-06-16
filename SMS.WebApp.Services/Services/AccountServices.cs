@@ -29,5 +29,10 @@ namespace SMS.WebApp.Services.Services
             var result =await _accountRepo.RegisterAsync(model);
             return result;
         }
+        public async Task<DataResult> LogOutAsync()
+        {
+            return await _accountRepo.LogoutAsync();
+
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using SMS.WebApp.Core.IRepositories;
 using SMSWebAppData.Helper;
 using SMSWebAppData.Models.ViewModels;
@@ -24,20 +25,20 @@ namespace SMS.WebApp.Core.Repositories
         public async Task<DataResult> LoginAsync(LoginViewModel model)
         {
             DataResult result = new DataResult();
-            var response = await _signInManager.PasswordSignInAsync(model.Email,model.Password,false,false);
-            if (response.Succeeded)
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            SignInResult signinResult = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+            if (signinResult.Succeeded)
             {
-
-                result.IsSuccess= true;
+                result.IsSuccess = true;
                 result.Message = "User Created successfully";
             }
             else
             {
-                result.IsSuccess= false;
+                result.IsSuccess = false;
                 result.Message = "Failed to register user. Try again!";
             }
             return result;
-            
+
         }
 
         public async Task<DataResult> RegisterAsync(RegisterViewModel model)
@@ -47,8 +48,12 @@ namespace SMS.WebApp.Core.Repositories
             {
                 UserName = model.UserName,
                 Email = model.Email,
+                EmailConfirmed = true,
+                LockoutEnabled = false,
+                SecurityStamp = Guid.NewGuid().ToString()
             };
-            IdentityResult response =await _userManager.CreateAsync(user);
+            user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, model.Password);
+            IdentityResult response = await _userManager.CreateAsync(user);
             if (response.Succeeded)
             {
                 //await _signInManager.SignInAsync(user,false);
@@ -61,6 +66,26 @@ namespace SMS.WebApp.Core.Repositories
                 result.Message = "Failed";
             }
             return result;
+        }
+        public async Task<String> GetCurrentUserName(HttpContext httpContext)
+        {
+            var user = await _userManager.GetUserAsync(httpContext.User);
+            return user.UserName;
+
+        }
+
+        public async Task<DataResult> LogoutAsync()
+        {
+            await _signInManager.SignOutAsync();
+            DataResult result = new DataResult()
+            {
+                IsSuccess = true,
+                Message = "Logout successfully"
+            };
+            return result;
+            //return  new DataResult(){ IsSuccess = true, Message = "Logout successfully"};
+
+
         }
     }
 }

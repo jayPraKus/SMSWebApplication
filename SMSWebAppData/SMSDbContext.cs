@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SMSWebAppData.Models.DataModels;
 
 namespace SMSWebAppData
 {
@@ -11,5 +12,7 @@ namespace SMSWebAppData
         {
 
         }
+        public DbSet<Students> Students { get; set; }
+
     }
 }

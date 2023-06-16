@@ -13,15 +13,22 @@ namespace SMSWebAppHost
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
             // Add services to the container.
             //Get Connection string; using ternary operator 
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection String 'Default connection' not found.");
             builder.Services.AddDbContext<SMSDbContext>(Options => Options.UseSqlServer(connectionString));
             //Use user and roles for tokens
-            builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<SMSDbContext>().AddDefaultTokenProviders();
+            //builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<SMSDbContext>().AddDefaultTokenProviders();
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => 
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.SignIn.RequireConfirmedPhoneNumber = false;
+                
+            }).AddEntityFrameworkStores<SMSDbContext>().AddDefaultTokenProviders();
             builder.Services.AddTransient<IAccountServices, AccountServices>();
             builder.Services.AddTransient<IAccountRepositories, AccountRepositories>();
+            builder.Services.AddTransient<IStudentRepositories, StudentRepositories>();
+            builder.Services.AddTransient<IStudentServices, StudentServices>();
             builder.Services.AddRazorPages();
 
             var app = builder.Build();
@@ -45,6 +52,7 @@ namespace SMSWebAppHost
             app.MapRazorPages();
 
             app.Run();
+            
         }
     }
 }
