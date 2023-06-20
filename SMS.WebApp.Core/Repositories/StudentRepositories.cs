@@ -73,6 +73,24 @@ namespace SMS.WebApp.Core.Repositories
             }
             return result;
         }
+
+        public async Task<DataResult<Students>> GetStudentsByIDAsync(Guid studentID)
+        {
+            DataResult<Students> result = new DataResult<Students>();
+            try
+            {
+                result.Data = await _context.Students.Where(w => w.IsDeleted == false).ToListAsync();
+                result.IsSuccess = true;
+                result.Message = "Get Student By ID Successful";
+            }
+            catch(Exception e)
+            {
+                result.IsSuccess = false;
+                result.Message = e.Message;
+            }
+            return result;
+        }
+
         public async Task<DataResult> UpdateStudentAsync(Students studentArgs)
         {
             DataResult result= new DataResult();

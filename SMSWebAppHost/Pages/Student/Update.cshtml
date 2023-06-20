@@ -1,34 +1,34 @@
 ﻿@page
-@model SMSWebAppHost.Pages.Student.CreateModel
+@model SMSWebAppHost.Pages.Student.UpdateModel
 @{
 }
-<form method="post" asp-page="Student/Create">
+<form method="post" asp-page="Student/Update">
     <div class="row g-3">
         <div class="col">
             <input type="text" asp-for="@Model.StudentViewModel.FirstName" class="form-control" placeholder="First name" aria-label="First name">
         </div>
         <div class="col">
             <input type="text" class="form-control" asp-for="@Model.StudentViewModel.LastName" placeholder="Last name" aria-label="Last name">
-        </div>        
+        </div>
     </div>
     <div class="row g-3">
         <div class="col">
             <input type="date" class="form-control" asp-for="@Model.StudentViewModel.DOB" placeholder="DOB" aria-label="DateOfBirth">
         </div>
-        <div class="col">  
+        <div class="col">
             <select class="form-select" asp-for="@Model.StudentViewModel.Gender" aria-label="Gender">
                 <option selected>Select Gender</option>
                 @{
                     if (Model.GenderList.Count > 0)
                     {
-                        foreach(var item in Model.GenderList)
+                        foreach (var item in Model.GenderList)
                         {
-                            <option value="@item">@item</option> 
+                            <option value="@item">@item</option>
                         }
                     }
-                }                 
+                }
             </select>
-        </div>        
+        </div>
     </div>
     <div class="row g-3">
         <div class="col">
@@ -36,10 +36,11 @@
         </div>
         <div class="col">
             <input type="text" class="form-control" asp-for="@Model.StudentViewModel.PhoneNumber" placeholder="Phone Number" aria-label="Phone Number">
-        </div>        
+        </div>
     </div>
     <div>
-        <input type="submit" class="btn btn-primary" />
-        <a class="btn btn-success" asp-page="/Student/Index" role="button">Cancel</a>
-    </div>    
+        <input type="submit" value="Update"class="btn btn-primary" />
+        <a class="btn btn-danger" asp-page="/Student/Index" role="button">Cancel</a>
+    </div>
 </form>
+

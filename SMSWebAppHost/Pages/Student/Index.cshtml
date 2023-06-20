@@ -5,19 +5,45 @@
 
 <div class="container">
     <a class="btn btn-success" asp-page="/Student/Create" role="button">Create Student</a>
-    <div class="row">       
-        @if(Model.Students.Count > 0)
-        {
-            @foreach(var item in Model.Students)
-            {
-                <div class="col">
-                    @item.FirstName
-                </div>
-            }
-        }
-        else
-        {
-            <P>No data found.</P>
-        }
-    </div>
-</div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">DOB</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Grade Level</th>
+                <th scope="col">Phone Number</th>  
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+                @if (Model.Students.Count > 0)
+                {
+                    @foreach (var item in Model.Students)
+                    {
+                        <tr>
+                        <td class="hidden">@item.StudentId</td> @*id is kept hidden to prevent from hacking*@
+                        <td>@item.FirstName</td>
+                            <td>@item.LastName</td>
+                            <td>@item.Gender</td>
+                            <td>@item.DOB</td>
+                            <td>@item.PhoneNumber</td>
+                            <td>@item.GradeLevel</td>
+                            <td> 
+                                <a asp-page="/Student/Update" asp-route-id="@item.StudentId" role="button">
+                                <i class="fa-solid fa-pencil"><i>
+                            </a>                                
+                            </td>
+                        </tr>
+                    }
+
+                }
+                else
+                {
+                    <P>No data found.</P>
+                }
+        </tbody>
+    </table>
+ </div>
+    

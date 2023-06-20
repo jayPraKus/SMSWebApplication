@@ -10,8 +10,8 @@ namespace SMSWebAppData.Helper
     {
         public DateTime CreatedDate { get; set; }
         public string CreateUserName { get; set; }
-        public DateTime UpdatedDate { get; set; }
-        public string  UpdateUserName { get; set; }
+        public DateTime? UpdatedDate { get; set; }
+        public string?  UpdateUserName { get; set; }
         public bool IsDeleted { get; set; }
 
     }

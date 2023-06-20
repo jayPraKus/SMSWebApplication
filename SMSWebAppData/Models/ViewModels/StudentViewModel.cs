@@ -10,6 +10,7 @@ namespace SMSWebAppData.Models.ViewModels
 {
     public class StudentViewModel
     {
+        public Guid StudentId { get; set; }
         [Required]
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -17,6 +18,6 @@ namespace SMSWebAppData.Models.ViewModels
         public GenderEnums Gender { get; set; }
         public string GradeLevel { get; set; }
         public string PhoneNumber { get; set; }
-
+        public string? UserName { get; set; }
     }
 }

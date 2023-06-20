@@ -11,5 +11,8 @@ namespace SMSWebAppData.Models.Enums
         Male=0,
         Female=1,
         Others=2,
+        Transgender=3,
+        Lesbian=4,
+        Gay = 5,
     }
 }

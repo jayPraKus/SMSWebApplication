@@ -2,6 +2,7 @@
 using SMS.WebApp.Services.IServices;
 using SMSWebAppData.Helper;
 using SMSWebAppData.Models.DataModels;
+using SMSWebAppData.Models.Enums;
 using SMSWebAppData.Models.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -30,11 +31,11 @@ namespace SMS.WebApp.Services.Services
                 Gender = studentArgs.Gender,
                 GradeLevel = studentArgs.GradeLevel,
                 PhoneNumber = studentArgs.PhoneNumber,
+                CreateUserName = studentArgs.UserName,
                 IsDeleted = false,
-                UpdatedDate=DateTime.Now,
+                UpdatedDate=null,
                 UpdateUserName=null,
-                CreatedDate=DateTime.UtcNow,
-                CreateUserName="",
+                CreatedDate=DateTime.UtcNow,                
             };            
             return await _studentRepo.CreateStudentAsync(student);
         }
@@ -56,6 +57,7 @@ namespace SMS.WebApp.Services.Services
             //Map (assign) data from students datamodel to studentViewModel 
             result.Data = response.Data.Select(s => new StudentViewModel
                                             {
+                                                StudentId=s.Id,
                                                 FirstName=s.FirstName,
                                                 LastName=s.LastName,
                                                 DOB = s.DOB,
@@ -64,6 +66,33 @@ namespace SMS.WebApp.Services.Services
                                                 PhoneNumber = s.PhoneNumber
                                             }).ToList();
             
+            return result;
+        }
+
+        public async Task<DataResult<GenderEnums>> GetGenderList()
+        {
+            DataResult<GenderEnums> result = new DataResult<GenderEnums>();
+            result.Data = Enum.GetValues<GenderEnums>().ToList();
+            return result;
+        }
+
+        public async Task<DataResult<StudentViewModel>> GetStudentByID(Guid StudentID)
+        {
+            DataResult<StudentViewModel > result = new DataResult<StudentViewModel>();
+            var response = await _studentRepo.GetStudentsByIDAsync(StudentID);
+            result.Message = response.Message;
+            result.IsSuccess = response.IsSuccess;
+            result.Data = response.Data.Select(s => new StudentViewModel
+                                    {
+                                        StudentId = s.Id,
+                                        FirstName = s.FirstName,
+                                        LastName = s.LastName,
+                                        DOB = s.DOB,
+                                        Gender = s.Gender,
+                                        PhoneNumber = s.PhoneNumber,
+                                        GradeLevel = s.GradeLevel,
+
+                                    }).ToList();
             return result;
         }
 
