@@ -2,7 +2,9 @@
 @model SMSWebAppHost.Pages.Student.CreateModel
 @{
 }
-<form method="post" asp-page="Student/Create">
+<div>
+    <h1>Add Student</h1>
+    <form method="post" asp-page="Student/Create">
     <div class="row g-3">
         <div class="col">
             <input type="text" asp-for="@Model.StudentViewModel.FirstName" class="form-control" placeholder="First name" aria-label="First name">
@@ -13,7 +15,7 @@
     </div>
     <div class="row g-3">
         <div class="col">
-            <input type="date" class="form-control" asp-for="@Model.StudentViewModel.DOB" placeholder="DOB" aria-label="DateOfBirth">
+            <input type="date" class="form-control" asp-for="@Model.StudentViewModel.DOB" placeholder="D.O.B" aria-label="DateOfBirth">
         </div>
         <div class="col">  
             <select class="form-select" asp-for="@Model.StudentViewModel.Gender" aria-label="Gender">
@@ -32,7 +34,7 @@
     </div>
     <div class="row g-3">
         <div class="col">
-            <input type="text" class="form-control" asp-for="@Model.StudentViewModel.GradeLevel" placeholder="Grade Level" aria-label="Grade Level">
+            <input type="text" class="form-control" asp-for="@Model.StudentViewModel.GradeLevel" placeholder="Grade Label" aria-label="Grade Label">
         </div>
         <div class="col">
             <input type="text" class="form-control" asp-for="@Model.StudentViewModel.PhoneNumber" placeholder="Phone Number" aria-label="Phone Number">
@@ -40,6 +42,7 @@
     </div>
     <div>
         <input type="submit" class="btn btn-primary" />
-        <a class="btn btn-success" asp-page="/Student/Index" role="button">Cancel</a>
+        <a class="btn btn-danger" asp-page="/Student/Index" role="button">Cancel</a>
     </div>    
-</form>
+    </form>
+</div>

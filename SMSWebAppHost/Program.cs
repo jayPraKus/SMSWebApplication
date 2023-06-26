@@ -19,12 +19,7 @@ namespace SMSWebAppHost
             builder.Services.AddDbContext<SMSDbContext>(Options => Options.UseSqlServer(connectionString));
             //Use user and roles for tokens
             //builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<SMSDbContext>().AddDefaultTokenProviders();
-            builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => 
-            {
-                options.SignIn.RequireConfirmedAccount = false;
-                options.SignIn.RequireConfirmedPhoneNumber = false;
-                
-            }).AddEntityFrameworkStores<SMSDbContext>().AddDefaultTokenProviders();
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<SMSDbContext>();
             builder.Services.AddTransient<IAccountServices, AccountServices>();
             builder.Services.AddTransient<IAccountRepositories, AccountRepositories>();
             builder.Services.AddTransient<IStudentRepositories, StudentRepositories>();

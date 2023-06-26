@@ -43,7 +43,14 @@ namespace SMS.WebApp.Core.Repositories
             DataResult result = new DataResult();
             try
             {
-                await _context.Students.Where(x=>x.Id==studentId).ExecuteDeleteAsync();
+                //await _context.Students.Where(x=>x.Id==studentId).ExecuteDeleteAsync();
+                var user = await _context.Students.Where(x => x.Id == studentId).FirstOrDefaultAsync();
+                if (user == null)
+                {
+                    result.IsSuccess = false;
+                    result.Message = "No user found";
+                }
+                user.IsDeleted = false;                  
                 await _context.SaveChangesAsync();
                 result.IsSuccess = true;
                 result.Message = "Student deleted successfully";
@@ -62,7 +69,7 @@ namespace SMS.WebApp.Core.Repositories
             {
                 //var dat = _context.Students.Select(s => s.DOB);
                 //dat.Where(w => w.Year > 2018);
-                result.Data = await _context.Students.Where(w => !w.IsDeleted).ToListAsync();
+                result.Data = await _context.Students.Where(w => w.IsDeleted == false).ToListAsync();
                 result.IsSuccess = true;
                 result.Message = "Students fetched successfully";
             } 
@@ -79,7 +86,7 @@ namespace SMS.WebApp.Core.Repositories
             DataResult<Students> result = new DataResult<Students>();
             try
             {
-                result.Data = await _context.Students.Where(w => w.IsDeleted == false).ToListAsync();
+                result.Data = await _context.Students.Where(w => w.Id == studentID).ToListAsync();
                 result.IsSuccess = true;
                 result.Message = "Get Student By ID Successful";
             }
@@ -96,16 +103,16 @@ namespace SMS.WebApp.Core.Repositories
             DataResult result= new DataResult();
             try
             {
-                var data = await _context.Students.Where(x => x.Id == studentArgs.Id).FirstOrDefaultAsync();
-                if (data != null)
-                {
-                    data.FirstName = studentArgs.FirstName;
-                    data.LastName = studentArgs.LastName;
-                    data.PhoneNumber = studentArgs.PhoneNumber;
-                    data.Gender = studentArgs.Gender;
-                    data.GradeLevel = studentArgs.GradeLevel;
-                    data.DOB = studentArgs.DOB;
-                }
+                var data = await _context.Students.Where(x => x.Id == studentArgs.Id).FirstAsync();
+                data.FirstName = studentArgs.FirstName;
+                data.LastName = studentArgs.LastName;
+                data.PhoneNumber = studentArgs.PhoneNumber;
+                data.Gender = studentArgs.Gender;
+                data.GradeLevel = studentArgs.GradeLevel;
+                data.DOB = studentArgs.DOB;
+                data.UpdateUserName = studentArgs.UpdateUserName;
+                data.UpdatedDate = studentArgs.UpdatedDate;
+
                 await _context.SaveChangesAsync();
                 result.IsSuccess = true;
                 result.Message = "Student updated successfully";

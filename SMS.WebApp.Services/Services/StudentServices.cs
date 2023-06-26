@@ -36,8 +36,9 @@ namespace SMS.WebApp.Services.Services
                 UpdatedDate=null,
                 UpdateUserName=null,
                 CreatedDate=DateTime.UtcNow,                
-            };            
-            return await _studentRepo.CreateStudentAsync(student);
+            };
+            var result= await _studentRepo.CreateStudentAsync(student);
+            return result;
         }
         public async Task<DataResult> DeleteStudentAsync(Guid studentId)
         {
@@ -100,6 +101,7 @@ namespace SMS.WebApp.Services.Services
         {
             Students student = new Students
             {
+                Id = studentArgs.StudentId,
                 FirstName = studentArgs.FirstName,
                 LastName = studentArgs.LastName,
                 DOB = studentArgs.DOB,
@@ -107,7 +109,7 @@ namespace SMS.WebApp.Services.Services
                 GradeLevel = studentArgs.GradeLevel,
                 PhoneNumber = studentArgs.PhoneNumber,
                 IsDeleted = false,
-                UpdatedDate = DateTime.Now,
+                UpdatedDate = DateTime.UtcNow,
                 UpdateUserName = null,
                 CreatedDate = DateTime.UtcNow,
                 CreateUserName = "",

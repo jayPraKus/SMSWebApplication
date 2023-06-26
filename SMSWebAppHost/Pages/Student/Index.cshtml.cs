@@ -9,6 +9,7 @@ namespace SMSWebAppHost.Pages.Student
     public class IndexModel : PageModel
     {
         private readonly IStudentServices _studentServices;
+        [BindProperty]
         public List<StudentViewModel> Students { get; set; }
         public IndexModel(IStudentServices studentServices)
         {
@@ -26,7 +27,18 @@ namespace SMSWebAppHost.Pages.Student
             {
                 return NotFound();
             }
-
+        }
+        public async Task<IActionResult> OnPostDelete(Guid id)
+        {
+            var result = await _studentServices.DeleteStudentAsync(id);
+            if(result.IsSuccess)
+            {
+                return Page();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }

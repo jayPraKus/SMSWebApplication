@@ -12,6 +12,10 @@ namespace SMSWebAppData
         {
 
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
         public DbSet<Students> Students { get; set; }
 
     }

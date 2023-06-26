@@ -19,6 +19,7 @@ namespace SMSWebAppHost.Pages.Student
         }
         public async void OnGet(Guid Id)
         {
+            //Get student by ID
             var response = await _studentServices.GetStudentByID(Id);
             var resp = await _studentServices.GetGenderList();
             if(response.Data != null)
@@ -29,8 +30,15 @@ namespace SMSWebAppHost.Pages.Student
             {
                 GenderList = resp.Data;
             }
-
-
+        }
+        public async Task<IActionResult> OnPost()
+        {
+            var response = await _studentServices.UpdateStudentAsync(StudentViewModel);
+            if (response.IsSuccess)
+            {
+                return RedirectToPage("/Student/Index");
+            }
+            return Page();
         }
     }
 }
