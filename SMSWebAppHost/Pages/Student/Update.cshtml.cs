@@ -17,19 +17,17 @@ namespace SMSWebAppHost.Pages.Student
         {
             _studentServices = studentServices;
         }
-        public async void OnGet(Guid Id)
+        public async Task<IActionResult> OnGet(Guid Id)
         {
             //Get student by ID
             var response = await _studentServices.GetStudentByID(Id);
-            var resp = await _studentServices.GetGenderList();
+            //var resp = await _studentServices.GetGenderList();
             if(response.Data != null)
             {
-                StudentViewModel = response.Data.FirstOrDefault();
+                StudentViewModel = response.Data.First();
             }
-            if(resp.Data != null)
-            {
-                GenderList = resp.Data;
-            }
+            GenderList = Enum.GetValues<GenderEnums>().ToList();
+            return Page();
         }
         public async Task<IActionResult> OnPost()
         {

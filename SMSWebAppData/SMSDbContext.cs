@@ -17,6 +17,7 @@ namespace SMSWebAppData
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<Students> Students { get; set; }
+        public DbSet<Teacher> Teachers { get; set; }
 
     }
 }

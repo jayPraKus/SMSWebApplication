@@ -50,7 +50,7 @@ namespace SMS.WebApp.Core.Repositories
                     result.IsSuccess = false;
                     result.Message = "No user found";
                 }
-                user.IsDeleted = false;                  
+                user.IsDeleted = true;                  
                 await _context.SaveChangesAsync();
                 result.IsSuccess = true;
                 result.Message = "Student deleted successfully";

@@ -41,8 +41,12 @@ namespace SMSWebAppHost.Pages.Student
                     return Page();
                 }
             }
-            return Page();
-                        
+            return Page();                                    
+        }
+        public async Task<JsonResult> OnGetGender()
+        {
+            var result =await _studentServices.GetGenderList();
+            return new JsonResult(result);
         }
     }
 }

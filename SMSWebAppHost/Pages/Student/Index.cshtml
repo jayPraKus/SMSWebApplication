@@ -23,13 +23,13 @@
                     @foreach (var item in Model.Students)
                     {
                         <tr>
-                            <td class="hidden">@item.StudentId</td> @*id is kept hidden to prevent from hacking*@
+                            <td class="hidden">@item.StudentId</td>         @*id is kept hidden to prevent from hacking*@
                             <td>@item.FirstName</td>
                             <td>@item.LastName</td>
                             <td>@item.DOB</td>
                             <td>@item.Gender</td>
                             <td>@item.GradeLevel</td>
-                            <td>@item.PhoneNumber</td>                            
+                            <td>@item.PhoneNumber</td>
                             <td>
                                 <form method="post">
                                     <a asp-page="/Student/Update" asp-route-id="@item.StudentId" role="button">
@@ -38,7 +38,7 @@
                                     <button type="submit" asp-page="/Student/Index" asp-page-handler="Delete" class="deleteButton" asp-route-id="@item.StudentId">
                                         <i class="fa-solid fa-trash"></i>
                                     </button>
-                                </form>                                
+                                </form>
                             </td>
                         </tr>
                     }
@@ -54,15 +54,21 @@
         </tbody>
     </table>
  </div> 
- @section scripts{
-     <script type="text/javascript">
-        $(document).ready(function(){
-            alert("We are in index page!!!")
+@section scripts
+{
+    <script type="text/javascript">
+        //$(document).ready(function () {
+        //    alert("We are in index page!!!")
+        //})
+
+        //function onDeleteButton()
+        //{
+        //    console.log("we are on delete button function")
+        //    confirm('Do you want to delete Student?')
+        //}
+
+        $(".deleteButton").click(function () {
+            return confirm('Do you want to delete Student?')
         })
-        //for class we use '.' and hastag '#' for id
-        $(".deleteButton").click(function(){
-            return confrim('Do you want to delete student?')
-        })
-     </script>
- }
-    
+    </script>
+}

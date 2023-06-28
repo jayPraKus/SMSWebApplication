@@ -5,7 +5,7 @@
 <form method="post" asp-page="Student/Update">
     <div class="row g-3">
         <div class="col">
-            <input type="text" asp-for="@Model.StudentViewModel.StudentId" class="form-control hidden" />
+            <input type="text" asp-for="@Model.StudentViewModel.StudentId" class="form-control hidden">
             <input type="text" asp-for="@Model.StudentViewModel.FirstName" class="form-control" placeholder="First name" aria-label="First name">
         </div>
         <div class="col">
@@ -14,13 +14,13 @@
     </div>
     <div class="row g-3">
         <div class="col">
-            <input type="date" class="form-control" asp-for="@Model.StudentViewModel.DOB" placeholder="D.O.B" aria-label="DateOfBirth">
+            <input type="date" asp-for="@Model.StudentViewModel.DOB" class="form-control" placeholder="D.O.B." aria-label="DateOfBirth">
         </div>
         <div class="col">
             <select class="form-select" asp-for="@Model.StudentViewModel.Gender" aria-label="Gender">
                 <option selected>Select Gender</option>
                 @{
-                    if (Model.GenderList.Count > 0)
+                    if (Model.GenderList != null && Model.GenderList.Count > 0)
                     {
                         foreach (var item in Model.GenderList)
                         {
@@ -33,15 +33,16 @@
     </div>
     <div class="row g-3">
         <div class="col">
-            <input type="text" class="form-control" asp-for="@Model.StudentViewModel.GradeLevel" placeholder="Grade label" aria-label="Grade label">
+            <input type="text" asp-for="@Model.StudentViewModel.GradeLevel" class="form-control" placeholder="Grade Label" aria-label="Grade label">
         </div>
         <div class="col">
-            <input type="text" class="form-control" asp-for="@Model.StudentViewModel.PhoneNumber" placeholder="Phone Number" aria-label="Phone Number">
+            <input type="text" class="form-control" asp-for="@Model.StudentViewModel.PhoneNumber" placeholder="Phone number" aria-label="Phone number">
         </div>
     </div>
     <div>
-        <input type="submit" value="Update"class="btn btn-primary" />
+        <input type="submit" value="Update" class="btn btn-primary" />
+
+
         <a class="btn btn-danger" asp-page="/Student/Index" role="button">Cancel</a>
     </div>
 </form>
-
