@@ -71,7 +71,7 @@ namespace SMS.WebApp.Core.Repositories
                 //dat.Where(w => w.Year > 2018);
                 result.Data = await _context.Students.Where(w => w.IsDeleted == false).ToListAsync();
                 result.IsSuccess = true;
-                result.Message = "Students fetched successfully";
+                result.Message = "Students data fetched successfully";
             } 
             catch(Exception e)
             {
@@ -112,7 +112,6 @@ namespace SMS.WebApp.Core.Repositories
                 data.DOB = studentArgs.DOB;
                 data.UpdateUserName = studentArgs.UpdateUserName;
                 data.UpdatedDate = studentArgs.UpdatedDate;
-
                 await _context.SaveChangesAsync();
                 result.IsSuccess = true;
                 result.Message = "Student updated successfully";

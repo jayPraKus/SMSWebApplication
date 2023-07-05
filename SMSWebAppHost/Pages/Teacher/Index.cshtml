@@ -1,0 +1,191 @@
+﻿@page
+@model SMSWebAppHost.Pages.Teacher.IndexModel
+@{
+    int count = 0;
+}​​
+<div class="container">
+    @*adding button to add teacher*@
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" id="btn">
+        <i class="fa-solid fa-plus"></i> Add
+    </button>
+    @*creating table to populate teacher data*@
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">S.N.</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Gender</th>
+                <th scope="col">D.O.B.</th>
+                <th scope="col">Subject</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Email</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(Model.TeacherList.Count > 0)
+            {
+                foreach (var item in Model.TeacherList)
+                {
+                    <tr>                        
+                        <td class="hidden">@item.TeacherId</td>
+                        <td>
+                            @{count++;}           @*this code will only increase the count*@
+                            @count                  @*this code will print the increased value*@
+                        </td>
+                        <td>@item.FirstName</td>
+                        <td>@item.LastName</td>
+                        <td>@item.Gender</td>
+                        <td>@item.DOB</td>
+                        <td>@item.Subject</td>
+                        <td>@item.Phone</td>
+                        <td>@item.Email</td>
+
+                        <td>
+                            <button id="updateTeacher" onclick="UpdateTeacher('@item.TeacherId')" class="transparentButton">
+                                <i class="fa-solid fa-pencil"></i>
+                            </button>
+                            <a asp-page="/Teacher/Index" asp-route-id="@item.TeacherId" class="deleteButton" asp-page-handler="DeleteTeacher" role="button">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="text-center">
+                        No data.
+                    </td>
+                </tr>
+            }                            
+        </tbody>
+    </table>    
+    <!-- Creating popup Modal to add teacher -->
+    <div class="modal fade" id="teacherCreateUpdate" tabindex="-1" aria-labelledby="teacherCreateUpdate" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add/Edit Teacher Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @*creating form to add teachers data*@
+                    <form method="post" asp-page="/Teacher/Index">
+                        <div class="row g-3 form-space">
+                            <div class="col">
+                                <input type="text" class="form-control hidden" asp-for="@Model.TeacherVM.TeacherId" id="teacherId" />
+                                <input type="text" class="form-control" asp-for="@Model.TeacherVM.FirstName" id="firstName" class="firstName form-control" placeholder="First name" aria-label="First name">
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" asp-for="@Model.TeacherVM.LastName" id="lastName" placeholder="Last name" aria-label="Last name">
+                            </div>
+                        </div>
+                        <div class="row g-3 form-space">
+                            <div class="col">
+                                <input type="date" asp-for="@Model.TeacherVM.DOB" class="form-control" id="dob" placeholder="D.O.B." aria-label="DateOfBirth">
+                            </div>
+                            <div class="col">
+                                <select class="form-select" asp-for="@Model.TeacherVM.Gender" id="gender" aria-label="Gender">
+                                    <option selected>Select Gender</option>
+                                    @{                                        
+                                        @if (Model.GenderList.Count > 0)
+                                        {                                            
+                                            foreach (var item in Model.GenderList)
+                                            {                                                
+                                                <option value="@item">@item</option>
+                                            }                                            
+                                        }                                        
+                                    }​​
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row g-3 form-space">
+                            <div class="col">
+                                <input type="text" asp-for="@Model.TeacherVM.Subject" id="subject" class="subject form-control" placeholder="Subject" aria-label="Subject">
+                            </div>
+                            <div class="col">
+                                <input type="email" class="form-control" asp-for="@Model.TeacherVM.Email" id="email" placeholder="Email" aria-label="Email">
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" asp-for="@Model.TeacherVM.Phone" id="phone" placeholder="Phone" aria-label="Phone">
+                            </div>
+                        </div>
+                        <div class="modal-footer"> 
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>      
+    <div class="footer notificationAlert">
+    @{        
+        @if(Model.Response.Message != null)
+        {
+            if(Model.Response.IsSuccess)
+            {
+                <div class="alert alert-success alert-dismissible fade show">
+                    @Model.Response.Message
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-danger alert-dismissible fade show">
+                    @Model.Response.Message
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+        }
+    }
+    </div>
+
+</div>
+@section scripts{​​
+@*Create Teacher javascript code *@
+    <script type="text/javascript">
+        $("#btn").click(function(){
+            //Before adding data, clearing all the data
+            $('#teacherId').val('');
+            $('#firstName').val('');
+            $('#lastName').val('');
+            $('#dob').val('');
+            $('#gender').val('');
+            $('#subject').val('');
+            $('#email').val('');
+            $('#phone').val('');        
+            $("#teacherCreateUpdate").modal('show');
+        });
+
+        function UpdateTeacher(teacherId){
+            //alert(teacherId);
+            $.ajax({
+                url:"?handler=UpdateTeacher",
+                method:"GET",
+                data:{id:teacherId},
+                success: function(response){
+                    //TODO
+                    console.log(response, "response message here");
+                    //if(response.isSuccess){
+                    //    alert(response.Message)
+                    //}
+                    $('#teacherId').val(response.teacherId);
+                    $('#firstName').val(response.firstName);
+                    $('#lastName').val(response.lastName);
+                    $('#dob').val(response.dob);               //TODO: map date to datetime
+                    $('#gender').val(response.gender);           //TODO: map gender to select list
+                    $('#subject').val(response.subject);
+                    $('#email').val(response.email);
+                    $('#phone').val(response.phone);
+                    $("#teacherCreateUpdate").modal('show');
+                }
+            })
+        }
+    </script>
+}
+
+
