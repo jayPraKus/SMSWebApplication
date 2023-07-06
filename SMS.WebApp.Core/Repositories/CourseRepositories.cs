@@ -3,6 +3,7 @@ using SMS.WebApp.Core.IRepositories;
 using SMSWebAppData;
 using SMSWebAppData.Helper;
 using SMSWebAppData.Models.DataModels;
+using SMSWebAppData.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,7 +54,7 @@ namespace SMS.WebApp.Core.Repositories
                 course.IsDeleted = true;
                 await _context.SaveChangesAsync();
                 result.IsSuccess = true;
-                result.Message = "Courses created successfully";
+                result.Message = "Courses deleted successfully";
             }
             catch(Exception ex)
             {
@@ -63,12 +64,20 @@ namespace SMS.WebApp.Core.Repositories
             return result;
         }
 
-        public async Task<DataResult<Course>> GetAllCourse()
+        public async Task<DataResult<CourseViewModel>> GetAllCourse()
         {
-            DataResult<Course> result = new DataResult<Course>();
+            DataResult<CourseViewModel> result = new DataResult<CourseViewModel>();
             try
             {
-                result.Data = await _context.Courses.Where(a => a.IsDeleted == false).ToListAsync();
+                result.Data = await _context.Courses.Where(a => a.IsDeleted == false).Select(s => new CourseViewModel
+                {
+                    Id = s.Id,
+                    CourseName = s.CourseName,
+                    TeacherId = s.TeacherId,
+                    TeacherFullName = s.Teacher.FirstName + " " + s.Teacher.LastName
+                }).ToListAsync();
+                //result.Data = await _context.Courses.Where(a => a.IsDeleted == false).Select(s=> new Course { CourseName=s.courseName, TeacherId=s.teacherId });   ==LINQ Query
+                //select courseName, TeacherId from Courses Where IsDeleted = false;  ===SQL Query
                 result.IsSuccess = true;
                 result.Message = "GetAll courses successfully";
 
@@ -81,12 +90,18 @@ namespace SMS.WebApp.Core.Repositories
             return result;
         }
 
-        public async Task<DataResult<Course>> GetCourseById(Guid courseId)
+        public async Task<DataResult<CourseViewModel>> GetCourseById(Guid courseId)
         {
-            DataResult<Course> result = new DataResult<Course>();
+            DataResult<CourseViewModel> result = new DataResult<CourseViewModel>();
             try
             {
-                result.Data = await _context.Courses.Where(a => a.IsDeleted == false && a.Id == courseId).ToListAsync();
+                result.Data = await _context.Courses.Where(a => a.IsDeleted == false && a.Id == courseId).Select(s => new CourseViewModel
+                {
+                    Id = s.Id,
+                    CourseName = s.CourseName,
+                    TeacherId = s.TeacherId,
+                    TeacherFullName = s.Teacher.FirstName + " " + s.Teacher.LastName
+                }).ToListAsync();
                 result.IsSuccess = true;
                 result.Message = "GetAll courses successfully";
 
