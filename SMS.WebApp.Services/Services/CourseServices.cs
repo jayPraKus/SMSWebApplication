@@ -30,30 +30,25 @@ namespace SMS.WebApp.Services.Services
                 //IsDeleted = false,
                 //UpdateUserName = null,
                 //UpdatedDate = null,
-
             };
             var respone = await _courseRepo.CreateCourse(course);
             return respone;
         }
-
         public async Task<DataResult> DeleteCourse(Guid courseId)
         {
             var response = await _courseRepo.DeleteCourse(courseId);
             return response;
         }
-
         public async Task<DataResult<CourseViewModel>> GetAllCourse()
         {
             var response = await _courseRepo.GetAllCourse();            
             return response;
         }
-
         public async Task<DataResult<CourseViewModel>> GetCourseById(Guid courseId)
         {
             var response = await _courseRepo.GetCourseById(courseId);
             return response;
         }
-
         public async Task<DataResult> UpdateCourse(CourseViewModel courseArgs)
         {
             Course course = new Course

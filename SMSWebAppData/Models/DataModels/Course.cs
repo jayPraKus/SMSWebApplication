@@ -14,7 +14,7 @@ namespace SMSWebAppData.Models.DataModels
         public string CourseName { get; set; }
         [ForeignKey("TeacherId")]
         public Guid TeacherId { get; set; }
-        public Teacher Teacher { get; set; }
+        public virtual Teacher Teacher { get; set; }
 
 
 

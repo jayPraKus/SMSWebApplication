@@ -69,13 +69,18 @@ namespace SMS.WebApp.Core.Repositories
             DataResult<CourseViewModel> result = new DataResult<CourseViewModel>();
             try
             {
-                result.Data = await _context.Courses.Where(a => a.IsDeleted == false).Select(s => new CourseViewModel
+                var data = await _context.Courses.Where(a => a.IsDeleted == false).ToListAsync();
+                if (data.Count != 0)
                 {
-                    Id = s.Id,
-                    CourseName = s.CourseName,
-                    TeacherId = s.TeacherId,
-                    TeacherFullName = s.Teacher.FirstName + " " + s.Teacher.LastName
-                }).ToListAsync();
+                    result.Data = data.Select(s => new CourseViewModel
+                    {
+                        Id = s.Id,
+                        CourseName = s.CourseName,
+                        TeacherId = s.TeacherId,
+                        TeacherFullName = s.Teacher.FirstName + " " + s.Teacher.LastName
+                    }).ToList();
+                }
+
                 //result.Data = await _context.Courses.Where(a => a.IsDeleted == false).Select(s=> new Course { CourseName=s.courseName, TeacherId=s.teacherId });   ==LINQ Query
                 //select courseName, TeacherId from Courses Where IsDeleted = false;  ===SQL Query
                 result.IsSuccess = true;
