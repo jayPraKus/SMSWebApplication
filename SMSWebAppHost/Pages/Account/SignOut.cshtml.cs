@@ -15,7 +15,7 @@ namespace SMSWebAppHost.Pages.Account
         }
         public void OnGet()
         {
-            ResponseMessage = "Hello";
+            ResponseMessage = "Dear User!";
         }
         public async Task<IActionResult> OnPost (string returnUrl = null)
         {

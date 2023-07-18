@@ -3,6 +3,7 @@ using SMS.WebApp.Core.IRepositories;
 using SMS.WebApp.Services.IServices;
 using SMSWebAppData.Helper;
 using SMSWebAppData.Models.DataModels;
+using SMSWebAppData.Models.RequestModels;
 using SMSWebAppData.Models.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -39,9 +40,9 @@ namespace SMS.WebApp.Services.Services
             var response = await _courseRepo.DeleteCourse(courseId);
             return response;
         }
-        public async Task<DataResult<CourseViewModel>> GetAllCourse()
+        public async Task<DataResult<CourseViewModel>> GetAllCourse(RequestQueryParams queryParams)
         {
-            var response = await _courseRepo.GetAllCourse();            
+            var response = await _courseRepo.GetAllCourse(queryParams);            
             return response;
         }
         public async Task<DataResult<CourseViewModel>> GetCourseById(Guid courseId)
@@ -53,6 +54,7 @@ namespace SMS.WebApp.Services.Services
         {
             Course course = new Course
             {
+                Id = courseArgs.Id,
                 CourseName = courseArgs.CourseName,
                 TeacherId = courseArgs.TeacherId,
                 UpdateUserName = "",

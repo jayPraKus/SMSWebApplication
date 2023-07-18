@@ -3,6 +3,7 @@ using SMS.WebApp.Core.IRepositories;
 using SMSWebAppData;
 using SMSWebAppData.Helper;
 using SMSWebAppData.Models.DataModels;
+using SMSWebAppData.Models.RequestModels;
 using SMSWebAppData.Models.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -64,25 +65,31 @@ namespace SMS.WebApp.Core.Repositories
             return result;
         }
 
-        public async Task<DataResult<CourseViewModel>> GetAllCourse()
+        public async Task<DataResult<CourseViewModel>> GetAllCourse(RequestQueryParams queryParams)
         {
             DataResult<CourseViewModel> result = new DataResult<CourseViewModel>();
             try
             {
-                var data = await _context.Courses.Where(a => a.IsDeleted == false).ToListAsync();
+                var data = await _context.Courses.Where(a => a.IsDeleted == false).OrderBy(o => o.Id).ToListAsync();
                 if (data.Count != 0)
                 {
                     result.Data = data.Select(s => new CourseViewModel
-                    {
-                        Id = s.Id,
-                        CourseName = s.CourseName,
-                        TeacherId = s.TeacherId,
-                        TeacherFullName = s.Teacher.FirstName + " " + s.Teacher.LastName
-                    }).ToList();
+                                       {
+                                            Id = s.Id,
+                                            CourseName = s.CourseName,
+                                            TeacherId = s.TeacherId,
+                                        //TotalCount = data.Count(),
+                                            TeacherFullName = s.Teacher.FirstName + " " + s.Teacher.LastName
+                                       })
+                                        .OrderBy(o=>o.Id)
+                                        .Skip((queryParams.CurrentPage-1) * queryParams.PageSize)
+                                        .Take(queryParams.PageSize)
+                                        .ToList();
                 }
 
                 //result.Data = await _context.Courses.Where(a => a.IsDeleted == false).Select(s=> new Course { CourseName=s.courseName, TeacherId=s.teacherId });   ==LINQ Query
                 //select courseName, TeacherId from Courses Where IsDeleted = false;  ===SQL Query
+                result.TotalCount = data.Count;
                 result.IsSuccess = true;
                 result.Message = "GetAll courses successfully";
 
@@ -135,6 +142,9 @@ namespace SMS.WebApp.Core.Repositories
                 course.UpdateUserName = courseArgs.UpdateUserName;
                 course.TeacherId = courseArgs.TeacherId;
                 course.UpdatedDate = courseArgs.UpdatedDate;
+                await _context.SaveChangesAsync();
+                result.IsSuccess = true;
+                result.Message = "Data updated successfully";
             }
             catch(Exception e)
             {

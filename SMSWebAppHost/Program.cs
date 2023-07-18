@@ -16,7 +16,15 @@ namespace SMSWebAppHost
             // Add services to the container.
             //Get Connection string; using ternary operator 
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection String 'Default connection' not found.");
-            builder.Services.AddDbContext<SMSDbContext>(Options => Options.UseSqlServer(connectionString));
+            //Add db context
+            //builder.Services.AddDbContext<SMSDbContext>(Options => Options.UseSqlServer(connectionString));
+            builder.Services.AddDbContext<SMSDbContext>(Options => Options.UseSqlServer(connectionString, sqlServerOptions =>sqlServerOptions.EnableRetryOnFailure()));
+            builder.Services.AddSession(Options =>
+            {
+                Options.IdleTimeout = TimeSpan.FromSeconds(100);
+                Options.Cookie.HttpOnly = true;
+                Options.Cookie.IsEssential = true;
+            });
             //Use user and roles for tokens
             //builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<SMSDbContext>().AddDefaultTokenProviders();
             builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<SMSDbContext>();
@@ -39,11 +47,12 @@ namespace SMSWebAppHost
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseDeveloperExceptionPage();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            
             app.UseRouting();
+            app.UseSession();
             app.UseAuthentication();
 
             app.UseAuthorization();

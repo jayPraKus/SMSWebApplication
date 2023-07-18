@@ -18,8 +18,10 @@ namespace SMSWebAppData.Models.ViewModels
         [Required]
         public Guid TeacherId { get; set; }
         [Required]
-        public string TeacherFullName { get; set; } 
+        public string TeacherFullName { get; set; }
+        public int TotalCount { get; set; }
         public List<TeacherViewModel> Teachers { get; set; } 
+        public string sessionExample { get; set; }
 
 
 
