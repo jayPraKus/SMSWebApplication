@@ -30,7 +30,7 @@ namespace SMSWebAppHost.Pages.Course
             HttpContext.Session.SetString("SessionDemo", "Value stored in session");
             RequestQueryParams queryParams = new RequestQueryParams
             {
-                PageSize = pageSize == 0 ? 1 : pageSize,
+                PageSize = pageSize == 0 ? 3 : pageSize,
                 CurrentPage = currentPage == 0 ? 1 : currentPage
             };
             var response = await _courseService.GetAllCourse(queryParams);
@@ -48,7 +48,7 @@ namespace SMSWebAppHost.Pages.Course
             CourseViewModel courseModel = new CourseViewModel
             {
                 Teachers = teacherList.Data,
-                sessionExample = sess
+                sessionExample = sess,
             };
             return new PartialViewResult
             {

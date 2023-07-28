@@ -1,0 +1,64 @@
+﻿@page
+@model SMSWebAppHost.Pages.Enrollment.IndexModel
+
+<div class="container">
+    @*adding button to add new Course*@
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" id="addbtn" data-bs-target="#createModal">
+        <i class="fa-solid fa-plus"></i> Add
+    </button>
+    @*creating table to populate Course data*@
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Student Name</th>
+                <th scope="col">Course</th>
+                <th scope="col">Action</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.EnrollmentList != null)
+            {
+                foreach (var item in Model.EnrollmentList)
+                {
+                    <tr>
+                        <td class="hidden">@item.Id</td>
+                        <td>@item.StudentFullName</td>
+                        <td>@item.CourseName</td>
+                        <td>
+                            <button class="transparentButton" data-bs-toggle="modal" onclick="UpdateEnrollment('@item.Id')" id="updatebtn" data-bs-target="#updateModal">
+                                <i class="fa-solid fa-pencil"></i>
+                            </button>
+                            <a asp-page="/Enrollment/Index" asp-route-id="@item.Id" class="deleteButton" asp-page-handler="DeleteCourse" role="button">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="text-center">
+                        No data.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>    
+</div>
+@*Create Modal*@
+<div class="modal fade" tabindex="-1" aria-labelledby="studentCreateUpdate" id="createModal" aria-hidden="true">
+    <div class="modal-dialog">
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $('#addbtn').click(function () {
+            $('#createModal').load('?handler=CreateEnrollment')
+        });
+        function UpdateEnrollment(enrollId) {
+            $('#updateModal').load('?handler=UpdateEnrollment&id=' + enrollId)
+        }
+    </script>
+}
